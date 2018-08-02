@@ -1,17 +1,19 @@
+src:
+  build:
+    target: None
+    configuration: None
+
 notests *default:
   build:
-    target: Vostok.Commons.Threading.sln
+    target: Vostok.Commons.Collections.sln
     configuration: NoTests
     tool:
       name: dotnet
-
-  install:
-    - Vostok.Commons.Threading/bin/Release/netstandard2.0/Vostok.Commons.Threading.dll
 
   deps:
     - vostok.devtools
 
 full-build > notests:
   build:
-    target: Vostok.Commons.Threading.sln
+    target: Vostok.Commons.Collections.sln
     configuration: Release
