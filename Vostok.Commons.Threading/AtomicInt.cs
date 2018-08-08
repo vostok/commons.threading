@@ -1,4 +1,5 @@
 ﻿using System.Threading;
+using JetBrains.Annotations;
 
 namespace Vostok.Commons.Threading
 {
@@ -58,7 +59,7 @@ namespace Vostok.Commons.Threading
         public int Exchange(int newValue) =>
             Interlocked.Exchange(ref value, newValue);
 
-        public static implicit operator int(AtomicInt atomicInt) =>
+        public static implicit operator int([NotNull] AtomicInt atomicInt) =>
             atomicInt.Value;
     }
 }
