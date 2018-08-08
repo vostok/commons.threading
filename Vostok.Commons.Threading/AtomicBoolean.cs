@@ -1,4 +1,5 @@
 ﻿using System.Threading;
+using JetBrains.Annotations;
 
 namespace Vostok.Commons.Threading
 {
@@ -24,7 +25,7 @@ namespace Vostok.Commons.Threading
         public bool TrySetFalse() =>
             Interlocked.CompareExchange(ref state, FalseState, TrueState) == TrueState;
 
-        public static implicit operator bool(AtomicBoolean atomicBoolean) =>
+        public static implicit operator bool([NotNull] AtomicBoolean atomicBoolean) =>
             atomicBoolean.Value;
     }
 }
