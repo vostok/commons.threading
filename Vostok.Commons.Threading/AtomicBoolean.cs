@@ -3,7 +3,13 @@ using JetBrains.Annotations;
 
 namespace Vostok.Commons.Threading
 {
-    internal class AtomicBoolean
+    [PublicAPI]
+#if MAKE_CLASSES_PUBLIC
+    public
+#else
+    internal
+#endif
+        class AtomicBoolean
     {
         private const int TrueState = 1;
         private const int FalseState = 0;

@@ -3,7 +3,13 @@ using JetBrains.Annotations;
 
 namespace Vostok.Commons.Threading
 {
-    internal class AtomicInt
+    [PublicAPI]
+#if MAKE_CLASSES_PUBLIC
+    public
+#else
+    internal
+#endif
+        class AtomicInt
     {
         private int value;
 
