@@ -1,8 +1,7 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
-using Vostok.Commons.Threading.Atomic;
 
-namespace Vostok.Commons.Threading.Tests.Atomic
+namespace Vostok.Commons.Threading.Tests
 {
     [TestFixture]
     internal class AtomicInt_Tests
