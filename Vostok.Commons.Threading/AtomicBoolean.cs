@@ -1,8 +1,8 @@
 ﻿using System.Threading;
 
-namespace Vostok.Commons.Threading.Atomic
+namespace Vostok.Commons.Threading
 {
-    public class AtomicBoolean
+    internal class AtomicBoolean
     {
         private const int TrueState = 1;
         private const int FalseState = 0;

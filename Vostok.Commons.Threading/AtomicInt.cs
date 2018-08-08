@@ -1,8 +1,8 @@
 ﻿using System.Threading;
 
-namespace Vostok.Commons.Threading.Atomic
+namespace Vostok.Commons.Threading
 {
-    public class AtomicInt
+    internal class AtomicInt
     {
         private int value;
 
