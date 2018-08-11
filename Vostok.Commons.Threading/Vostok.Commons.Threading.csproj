@@ -1,38 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-
   <Import Project="..\..\vostok.devtools\library-common-props\Main-Project.props" />
   <Import Project="..\..\vostok.devtools\git-commit-to-assembly-title\Vostok.Tools.GitCommit2AssemblyTitle.props" />
-
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Configurations>Debug;Release</Configurations>
     <LangVersion>7.2</LangVersion>
   </PropertyGroup>
-
   <PropertyGroup>
     <VersionPrefix>0.0.1</VersionPrefix>
-    <VersionSuffix></VersionSuffix>
+    <VersionSuffix>
+    </VersionSuffix>
   </PropertyGroup>
-
   <PropertyGroup>
     <PackageReleaseNotes>TODO</PackageReleaseNotes>
   </PropertyGroup>
-
   <PropertyGroup>
     <Title>Vostok common threading library</Title>
     <Description>Common threading library for microservice toolkit http://vostok.tools/</Description>
   </PropertyGroup>
-
   <PropertyGroup>
     <PackageProjectUrl>https://github.com/vostok/commons.threading</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/vostok/commons.threading/blob/master/LICENSE</PackageLicenseUrl>
     <PackageTags>vostok vostok.commons.threading</PackageTags>
     <RepositoryUrl>https://github.com/vostok/commons.threading</RepositoryUrl>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DefineConstants>TRACE;RELEASE;NETSTANDARD;NETSTANDARD2_0;MAKE_CLASSES_PUBLIC</DefineConstants>
   </PropertyGroup>
-
 </Project>
