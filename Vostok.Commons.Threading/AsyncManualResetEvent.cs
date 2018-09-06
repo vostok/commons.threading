@@ -7,12 +7,7 @@ using JetBrains.Annotations;
 namespace Vostok.Commons.Threading
 {
     [PublicAPI]
-#if MAKE_CLASSES_PUBLIC
-    public
-#else
-    internal
-#endif
-    class AsyncManualResetEvent
+    internal class AsyncManualResetEvent
     {
         private volatile TaskCompletionSource<bool> state = new TaskCompletionSource<bool>();
 

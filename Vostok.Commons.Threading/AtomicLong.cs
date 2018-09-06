@@ -4,12 +4,7 @@ using JetBrains.Annotations;
 namespace Vostok.Commons.Threading
 {
     [PublicAPI]
-#if MAKE_CLASSES_PUBLIC
-    public
-#else
-    internal
-#endif
-        class AtomicLong
+    internal class AtomicLong
     {
         private long value;
 
