@@ -4,12 +4,7 @@ using JetBrains.Annotations;
 namespace Vostok.Commons.Threading
 {
     [PublicAPI]
-#if MAKE_CLASSES_PUBLIC
-    public
-#else
-    internal
-#endif 
-        static class ThreadSafeRandom
+    internal static class ThreadSafeRandom
     {
         public static double NextDouble()
         {
