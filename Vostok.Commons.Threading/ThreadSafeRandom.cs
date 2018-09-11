@@ -6,6 +6,9 @@ namespace Vostok.Commons.Threading
     [PublicAPI]
     internal static class ThreadSafeRandom
     {
+        [ThreadStatic]
+        private static Random random;
+
         public static double NextDouble()
         {
             return ObtainRandom().NextDouble();
@@ -35,7 +38,7 @@ namespace Vostok.Commons.Threading
         {
             ObtainRandom().NextBytes(buffer);
         }
-        
+
         public static byte[] NextBytes(long size)
         {
             var buffer = new byte[size];
@@ -54,8 +57,5 @@ namespace Vostok.Commons.Threading
         {
             return random ?? (random = new Random(Guid.NewGuid().GetHashCode()));
         }
-
-        [ThreadStatic]
-        private static Random random;
     }
 }
