@@ -40,7 +40,7 @@ namespace Vostok.Commons.Threading
 
         private class Releaser : IDisposable
         {
-            private AsyncLock lockToRelease;
+            private readonly AsyncLock lockToRelease;
 
             public Releaser(AsyncLock lockToRelease)
             {
@@ -49,7 +49,7 @@ namespace Vostok.Commons.Threading
 
             public void Dispose()
             {
-                Interlocked.Exchange(ref lockToRelease, null)?.semaphore?.Release();
+                lockToRelease.semaphore.Release();
             }
         }
     }
