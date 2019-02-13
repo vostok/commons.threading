@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Runtime.CompilerServices;
+using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 
@@ -32,5 +33,9 @@ namespace Vostok.Commons.Threading
         }
 
         public Task WaitAsync() => state.Task;
+
+        public TaskAwaiter GetAwaiter() => WaitAsync().GetAwaiter();
+
+        public static implicit operator Task(AsyncManualResetEvent @event) => @event.WaitAsync();
     }
 }
