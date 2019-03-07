@@ -34,6 +34,8 @@ namespace Vostok.Commons.Threading
 
         public Task WaitAsync() => state.Task;
 
+        public Task WaitAsync(CancellationToken token) => Task.WhenAny(state.Task, Task.Delay(-1, token));
+
         public TaskAwaiter GetAwaiter() => WaitAsync().GetAwaiter();
 
         public static implicit operator Task(AsyncManualResetEvent @event) => @event.WaitAsync();
