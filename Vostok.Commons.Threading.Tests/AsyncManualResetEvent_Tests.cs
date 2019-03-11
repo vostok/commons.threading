@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
@@ -46,6 +48,32 @@ namespace Vostok.Commons.Threading.Tests
             @event.Set();
 
             task.IsCompleted.Should().BeTrue();
+        }
+
+        [Test]
+        public async Task WaitAsync_should_return_when_event_was_set_after_call_with_cancellation_token()
+        {
+            var cts = new CancellationTokenSource();
+            var task = @event.WaitAsync(cts.Token);
+
+            @event.Set();
+
+            await task;
+        }
+
+        [Test]
+        public void WaitAsync_should_be_cancelable()
+        {
+            Func<Task> func = async () =>
+            {
+                var cts = new CancellationTokenSource();
+                var task = @event.WaitAsync(cts.Token);
+
+                cts.Cancel(true);
+
+                await task;
+            };
+            func.Should().Throw<OperationCanceledException>();
         }
 
         [Test]

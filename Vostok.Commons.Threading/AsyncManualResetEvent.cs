@@ -34,7 +34,15 @@ namespace Vostok.Commons.Threading
 
         public Task WaitAsync() => state.Task;
 
-        public Task WaitAsync(CancellationToken token) => Task.WhenAny(state.Task, Task.Delay(-1, token));
+        public async Task WaitAsync(CancellationToken token)
+        {
+            var tcs = new TaskCompletionSource<bool>();
+            
+            using (token.Register(() => tcs.TrySetCanceled()))
+            {
+                await (await Task.WhenAny(state.Task, tcs.Task).ConfigureAwait(false)).ConfigureAwait(false);
+            }
+        }
 
         public TaskAwaiter GetAwaiter() => WaitAsync().GetAwaiter();
 
