@@ -10,7 +10,7 @@ namespace Vostok.Commons.Threading
     [PublicAPI]
     internal class AsyncManualResetEvent
     {
-        private volatile TaskCompletionSource<bool> state = new TaskCompletionSource<bool>();
+        private volatile TaskCompletionSource<bool> state = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
 
         public AsyncManualResetEvent(bool isSetInitially)
         {
@@ -27,7 +27,7 @@ namespace Vostok.Commons.Threading
                 var currentState = state;
                 if (!currentState.Task.IsCompleted)
                     return;
-                if (Interlocked.CompareExchange(ref state, new TaskCompletionSource<bool>(), currentState) == currentState)
+                if (Interlocked.CompareExchange(ref state, new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously), currentState) == currentState)
                     return;
             }
         }
