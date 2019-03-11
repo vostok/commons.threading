@@ -90,7 +90,7 @@ namespace Vostok.Commons.Threading.Tests
         [Test]
         public void TrySet_should_not_update_value_when_current_value_does_not_match_expected()
         {
-            atomicNumber.TrySet(10, 1).Should();
+            atomicNumber.TrySet(10, 1).Should().BeFalse();
 
             atomicNumber.Value.Should().Be(0);
         }

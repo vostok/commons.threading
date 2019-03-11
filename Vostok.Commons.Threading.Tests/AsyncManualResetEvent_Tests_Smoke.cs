@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using FluentAssertions.Extensions;
 using NUnit.Framework;
 
+// ReSharper disable MethodSupportsCancellation
+
 namespace Vostok.Commons.Threading.Tests
 {
     [Explicit]
@@ -17,15 +19,15 @@ namespace Vostok.Commons.Threading.Tests
         public void Should_not_leak_waiters_in_concurrent_environment(int waitersCount, int settersCount, int resettersCount)
         {
             var @event = new AsyncManualResetEvent(false);
+            var cancellation = new CancellationTokenSource();
 
-            var stop = false;
             var trigger = new CountdownEvent(waitersCount + settersCount + resettersCount);
             var setters = Enumerable.Range(0, settersCount)
                 .Select(_ => Task.Run(() =>
                 {
                     trigger.Signal();
                     trigger.Wait();
-                    while (!stop)
+                    while (!cancellation.Token.IsCancellationRequested)
                         @event.Set();
                 })).ToList();
             var resetters = Enumerable.Range(0, resettersCount)
@@ -33,7 +35,7 @@ namespace Vostok.Commons.Threading.Tests
                 {
                     trigger.Signal();
                     trigger.Wait();
-                    while (!stop)
+                    while (!cancellation.Token.IsCancellationRequested)
                         @event.Reset();
                 })).ToList();
             var waiters = Enumerable.Range(0, waitersCount)
@@ -41,13 +43,14 @@ namespace Vostok.Commons.Threading.Tests
                 {
                     trigger.Signal();
                     trigger.Wait();
-                    while (!stop)
+                    while (!cancellation.Token.IsCancellationRequested)
                         @event.WaitAsync().GetAwaiter().GetResult();
                 })).ToList();
 
             trigger.Wait();
             Thread.Sleep(10.Seconds());
-            stop = true;
+
+            cancellation.Cancel();
 
             Task.WhenAll(setters.Concat(resetters)).GetAwaiter().GetResult();
             @event.Set();
