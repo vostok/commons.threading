@@ -23,8 +23,8 @@ namespace Vostok.Commons.Threading
 
         public AsyncReaderWriterLock()
         {
-            readerReleaserTask = Task.FromResult((IDisposable) new Releaser(this, false));
-            writerReleaserTask = Task.FromResult((IDisposable) new Releaser(this, true));
+            readerReleaserTask = Task.FromResult((IDisposable)new Releaser(this, false));
+            writerReleaserTask = Task.FromResult((IDisposable)new Releaser(this, true));
             waitingWriters = new Queue<TaskCompletionSource<IDisposable>>();
             waitingReader = new TaskCompletionSource<IDisposable>();
             status = 0;
@@ -111,7 +111,7 @@ namespace Vostok.Commons.Threading
             }
 
             if (toWake != null)
-                ThreadPool.UnsafeQueueUserWorkItem(r => toWake.TrySetResult((Releaser) r), new Releaser(this, true));
+                ThreadPool.UnsafeQueueUserWorkItem(r => toWake.TrySetResult((Releaser)r), new Releaser(this, true));
         }
 
         private void WriteRelease()
@@ -137,7 +137,7 @@ namespace Vostok.Commons.Threading
             }
 
             if (toWake != null)
-                ThreadPool.UnsafeQueueUserWorkItem(r => toWake.TrySetResult((Releaser) r), new Releaser(this, toWakeIsWriter));
+                ThreadPool.UnsafeQueueUserWorkItem(r => toWake.TrySetResult((Releaser)r), new Releaser(this, toWakeIsWriter));
         }
 
         private class Releaser : IDisposable

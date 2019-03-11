@@ -28,9 +28,9 @@ namespace Vostok.Commons.Threading
 
             waiters = new ConcurrentStack<Waiter>();
 
-            signalWaiterCallback = waiter => ((Waiter) waiter).TrySetResult(true);
+            signalWaiterCallback = waiter => ((Waiter)waiter).TrySetResult(true);
             signalDeferredWaiterCallback = _ => SignalDeferredWaiter();
-            signalDeferredWaitersCallback = count => SignalDeferredWaiters((int) count);
+            signalDeferredWaitersCallback = count => SignalDeferredWaiters((int)count);
         }
 
         public int CurrentCount => Math.Max(0, currentCount);
