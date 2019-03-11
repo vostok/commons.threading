@@ -14,7 +14,8 @@ namespace Vostok.Commons.Threading
             if (multiplier <= 0)
                 return;
 
-            var minimumThreads = Math.Min(Environment.ProcessorCount * multiplier, MaximumThreads);
+            // ReSharper disable once RedundantNameQualifier
+            var minimumThreads = Math.Min(System.Environment.ProcessorCount * multiplier, MaximumThreads);
 
             ThreadPool.SetMaxThreads(MaximumThreads, MaximumThreads);
             ThreadPool.SetMinThreads(minimumThreads, minimumThreads);
