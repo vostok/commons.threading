@@ -22,8 +22,8 @@ namespace Vostok.Commons.Threading
         #region Equality 
 
         public override bool Equals(object obj) =>
-           !ReferenceEquals(null, obj) &&
-           obj is ThreadPoolState state && Equals(state);
+            !ReferenceEquals(null, obj) &&
+            obj is ThreadPoolState state && Equals(state);
 
         public bool Equals(ThreadPoolState other) =>
             MinWorkerThreads == other.MinWorkerThreads &&
@@ -41,7 +41,7 @@ namespace Vostok.Commons.Threading
                 hashCode = (hashCode * 397) ^ UsedIocpThreads;
                 return hashCode;
             }
-        } 
+        }
 
         #endregion
     }

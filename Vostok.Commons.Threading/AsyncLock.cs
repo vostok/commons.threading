@@ -14,7 +14,7 @@ namespace Vostok.Commons.Threading
         public AsyncLock()
         {
             semaphore = new SemaphoreSlim(1, 1);
-            cachedReleaserTask = Task.FromResult((IDisposable) new Releaser(this));
+            cachedReleaserTask = Task.FromResult((IDisposable)new Releaser(this));
         }
 
         public Task<IDisposable> LockAsync()
@@ -23,7 +23,7 @@ namespace Vostok.Commons.Threading
             if (waitTask.IsCompleted)
                 return cachedReleaserTask;
 
-            return waitTask.ContinueWith((_, state) => (IDisposable) new Releaser((AsyncLock) state), this, CancellationToken.None, TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default);
+            return waitTask.ContinueWith((_, state) => (IDisposable)new Releaser((AsyncLock)state), this, CancellationToken.None, TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default);
         }
 
         public bool TryLockImmediately(out IDisposable releaser)
