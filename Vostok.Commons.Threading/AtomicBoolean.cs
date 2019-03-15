@@ -28,5 +28,8 @@ namespace Vostok.Commons.Threading
 
         public static implicit operator bool([NotNull] AtomicBoolean atomicBoolean) =>
             atomicBoolean.Value;
+
+        public static implicit operator AtomicBoolean(bool initialValue) =>
+            new AtomicBoolean(initialValue);
     }
 }
