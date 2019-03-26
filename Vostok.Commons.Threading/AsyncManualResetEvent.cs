@@ -20,7 +20,7 @@ namespace Vostok.Commons.Threading
 
         public void Set() => state.TrySetResult(true);
 
-        public bool Get() => state.Task.IsCompleted;
+        public bool IsCurrentlySet() => state.Task.IsCompleted;
 
         public void Reset()
         {
