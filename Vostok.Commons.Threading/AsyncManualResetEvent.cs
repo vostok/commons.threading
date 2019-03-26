@@ -20,6 +20,8 @@ namespace Vostok.Commons.Threading
 
         public void Set() => state.TrySetResult(true);
 
+        public bool Get() => state.Task.IsCompleted;
+
         public void Reset()
         {
             while (true)
@@ -36,7 +38,7 @@ namespace Vostok.Commons.Threading
 
         public async Task WaitAsync(CancellationToken token)
         {
-            var tcs = new TaskCompletionSource<bool>();
+            var tcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
 
             using (token.Register(() => tcs.TrySetCanceled()))
             {
