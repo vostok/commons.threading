@@ -77,6 +77,23 @@ namespace Vostok.Commons.Threading.Tests
         }
 
         [Test]
+        public void WaitAsync_should_pass_token_to_cancellation_exception()
+        {
+            var cts = new CancellationTokenSource();
+
+            Func<Task> func = async () =>
+            {
+                var task = @event.WaitAsync(cts.Token);
+
+                cts.Cancel(true);
+
+                await task;
+            };
+
+            func.Should().Throw<OperationCanceledException>().And.CancellationToken.Should().Be(cts.Token);
+        }
+
+        [Test]
         public void Reset_should_reset_event_that_was_set_initially()
         {
             @event = new AsyncManualResetEvent(true);
