@@ -26,6 +26,9 @@ namespace Vostok.Commons.Threading
         public bool TrySet(long newValue, long expectedValue) =>
             Interlocked.CompareExchange(ref value, newValue, expectedValue) == expectedValue;
 
+        public override string ToString() =>
+            $"{nameof(Value)}: {Value}";
+
         public bool TryIncreaseTo(long newValue)
         {
             while (true)

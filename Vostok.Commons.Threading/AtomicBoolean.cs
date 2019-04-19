@@ -26,6 +26,9 @@ namespace Vostok.Commons.Threading
         public bool TrySetFalse() =>
             Interlocked.CompareExchange(ref state, FalseState, TrueState) == TrueState;
 
+        public override string ToString() =>
+            $"{nameof(Value)}: {Value}";
+
         public static implicit operator bool([NotNull] AtomicBoolean atomicBoolean) =>
             atomicBoolean.Value;
 
