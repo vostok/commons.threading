@@ -31,6 +31,11 @@ namespace Vostok.Commons.Threading
 
         public static long Next(long minValue, long maxValue)
         {
+            if (minValue > maxValue)
+                ThrowArgumentOutOfRangeException(minValue, maxValue);
+            if (minValue == maxValue)
+                return minValue;
+            
             return Math.Abs(BitConverter.ToInt64(NextBytes(8), 0) % (maxValue - minValue)) + minValue;
         }
 
@@ -57,5 +62,8 @@ namespace Vostok.Commons.Threading
         {
             return random ?? (random = new Random(Guid.NewGuid().GetHashCode()));
         }
+        
+        private static void ThrowArgumentOutOfRangeException(long minValue, long maxValue) =>
+            throw new ArgumentOutOfRangeException(nameof(minValue), $"minValue {minValue} is greater than maxValue {maxValue}");
     }
 }
