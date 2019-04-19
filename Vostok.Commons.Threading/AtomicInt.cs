@@ -47,6 +47,9 @@ namespace Vostok.Commons.Threading
         public int Add(int toAdd) =>
             Interlocked.Add(ref value, toAdd);
 
+        public override string ToString() =>
+            $"{nameof(Value)}: {Value}";
+
         /// <summary></summary>
         /// <returns>The original value</returns>
         /// <param name="newValue">The value that replaces the destination value if the comparison results in equality. </param>
