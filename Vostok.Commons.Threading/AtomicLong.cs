@@ -65,5 +65,8 @@ namespace Vostok.Commons.Threading
 
         public static implicit operator long([NotNull] AtomicLong atomicLong) =>
             atomicLong.Value;
+
+        public static implicit operator AtomicLong(long initialValue) =>
+            new AtomicLong(initialValue);
     }
 }
