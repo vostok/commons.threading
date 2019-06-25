@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
@@ -42,6 +43,9 @@ namespace Vostok.Commons.Threading
                 // ReSharper disable once MethodSupportsCancellation
                 : WaitAsync();
 
+        public Task WaitAsync(CancellationToken token, TimeSpan timeout)
+            => WaitAsyncWithCancellationAndTimeout(token, timeout);
+
         public TaskAwaiter GetAwaiter() => WaitAsync().GetAwaiter();
 
         public static implicit operator Task(AsyncManualResetEvent @event) => @event.WaitAsync();
@@ -57,6 +61,22 @@ namespace Vostok.Commons.Threading
             {
                 await Task.WhenAny(state.Task, tcs.Task)
                     .ConfigureAwait(false);
+
+                token.ThrowIfCancellationRequested();
+            }
+        }
+
+        private async Task WaitAsyncWithCancellationAndTimeout(CancellationToken token, TimeSpan timeout)
+        {
+            using (var timeoutCancellation = new CancellationTokenSource())
+            using (var linkedCancellation = CancellationTokenSource.CreateLinkedTokenSource(token, timeoutCancellation.Token))
+            {
+                var timeoutTask = Task.Delay(timeout, linkedCancellation.Token);
+
+                await Task.WhenAny(state.Task, timeoutTask)
+                    .ConfigureAwait(false);
+
+                timeoutCancellation.Cancel();
 
                 token.ThrowIfCancellationRequested();
             }
