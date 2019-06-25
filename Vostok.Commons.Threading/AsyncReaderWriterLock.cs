@@ -26,7 +26,7 @@ namespace Vostok.Commons.Threading
             readerReleaserTask = Task.FromResult((IDisposable)new Releaser(this, false));
             writerReleaserTask = Task.FromResult((IDisposable)new Releaser(this, true));
             waitingWriters = new Queue<TaskCompletionSource<IDisposable>>();
-            waitingReader = new TaskCompletionSource<IDisposable>();
+            waitingReader = new TaskCompletionSource<IDisposable>(TaskCreationOptions.RunContinuationsAsynchronously);
             status = 0;
         }
 
@@ -56,7 +56,7 @@ namespace Vostok.Commons.Threading
                     return writerReleaserTask;
                 }
 
-                var waiter = new TaskCompletionSource<IDisposable>();
+                var waiter = new TaskCompletionSource<IDisposable>(TaskCreationOptions.RunContinuationsAsynchronously);
 
                 waitingWriters.Enqueue(waiter);
 
@@ -131,7 +131,7 @@ namespace Vostok.Commons.Threading
                     toWake = waitingReader;
                     status = readersWaiting;
                     readersWaiting = 0;
-                    waitingReader = new TaskCompletionSource<IDisposable>();
+                    waitingReader = new TaskCompletionSource<IDisposable>(TaskCreationOptions.RunContinuationsAsynchronously);
                 }
                 else status = 0;
             }
