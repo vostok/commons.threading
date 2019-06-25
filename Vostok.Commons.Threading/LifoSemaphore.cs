@@ -44,7 +44,7 @@ namespace Vostok.Commons.Threading
             if (decrementedCount >= 0)
                 return Task.CompletedTask;
 
-            var waiter = new Waiter();
+            var waiter = new Waiter(TaskCreationOptions.RunContinuationsAsynchronously);
 
             waiters.Push(waiter);
 
