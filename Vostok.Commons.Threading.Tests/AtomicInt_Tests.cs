@@ -6,6 +6,8 @@ namespace Vostok.Commons.Threading.Tests
     [TestFixture]
     internal class AtomicInt_Tests
     {
+        private AtomicInt atomicNumber;
+
         [SetUp]
         public void TestSetup()
         {
@@ -94,7 +96,5 @@ namespace Vostok.Commons.Threading.Tests
 
             atomicNumber.Value.Should().Be(0);
         }
-
-        private AtomicInt atomicNumber;
     }
 }

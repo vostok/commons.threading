@@ -6,6 +6,8 @@ namespace Vostok.Commons.Threading.Tests
     [TestFixture]
     internal class AtomicLong_Tests
     {
+        private AtomicLong atomicNumber;
+
         [SetUp]
         public void TestSetup()
         {
@@ -94,7 +96,5 @@ namespace Vostok.Commons.Threading.Tests
 
             atomicNumber.Value.Should().Be(0);
         }
-
-        private AtomicLong atomicNumber;
     }
 }
