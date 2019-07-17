@@ -23,29 +23,38 @@ namespace Vostok.Commons.Threading.Tests
 
             var trigger = new CountdownEvent(waitersCount + settersCount + resettersCount);
             var setters = Enumerable.Range(0, settersCount)
-                .Select(_ => Task.Run(() =>
-                {
-                    trigger.Signal();
-                    trigger.Wait();
-                    while (!cancellation.Token.IsCancellationRequested)
-                        @event.Set();
-                })).ToList();
+                .Select(
+                    _ => Task.Run(
+                        () =>
+                        {
+                            trigger.Signal();
+                            trigger.Wait();
+                            while (!cancellation.Token.IsCancellationRequested)
+                                @event.Set();
+                        }))
+                .ToList();
             var resetters = Enumerable.Range(0, resettersCount)
-                .Select(_ => Task.Run(() =>
-                {
-                    trigger.Signal();
-                    trigger.Wait();
-                    while (!cancellation.Token.IsCancellationRequested)
-                        @event.Reset();
-                })).ToList();
+                .Select(
+                    _ => Task.Run(
+                        () =>
+                        {
+                            trigger.Signal();
+                            trigger.Wait();
+                            while (!cancellation.Token.IsCancellationRequested)
+                                @event.Reset();
+                        }))
+                .ToList();
             var waiters = Enumerable.Range(0, waitersCount)
-                .Select(_ => Task.Run(() =>
-                {
-                    trigger.Signal();
-                    trigger.Wait();
-                    while (!cancellation.Token.IsCancellationRequested)
-                        @event.WaitAsync().GetAwaiter().GetResult();
-                })).ToList();
+                .Select(
+                    _ => Task.Run(
+                        () =>
+                        {
+                            trigger.Signal();
+                            trigger.Wait();
+                            while (!cancellation.Token.IsCancellationRequested)
+                                @event.WaitAsync().GetAwaiter().GetResult();
+                        }))
+                .ToList();
 
             trigger.Wait();
             Thread.Sleep(10.Seconds());

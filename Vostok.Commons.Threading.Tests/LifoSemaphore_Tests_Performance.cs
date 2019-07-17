@@ -24,7 +24,8 @@ namespace Vostok.Commons.Threading.Tests
         [Explicit]
         public void Benchmark_single_threaded_speed_vs_SemaphoreSlim()
         {
-            BenchmarkRunnerCore.Run(BenchmarkConverter.TypeToBenchmarks(typeof(LifoSemaphoreBenchmark)),
+            BenchmarkRunnerCore.Run(
+                BenchmarkConverter.TypeToBenchmarks(typeof(LifoSemaphoreBenchmark)),
                 job => new InProcessToolchain(false));
         }
 
@@ -97,15 +98,17 @@ namespace Vostok.Commons.Threading.Tests
 
                 for (var j = 0; j < parallelism; j++)
                 {
-                    tasks.Add(Task.Run(async () =>
-                    {
-                        for (var k = 0; k < iterations; k++)
-                        {
-                            await slimSemaphore.WaitAsync();
+                    tasks.Add(
+                        Task.Run(
+                            async () =>
+                            {
+                                for (var k = 0; k < iterations; k++)
+                                {
+                                    await slimSemaphore.WaitAsync();
 
-                            slimSemaphore.Release();
-                        }
-                    }));
+                                    slimSemaphore.Release();
+                                }
+                            }));
                 }
 
                 Task.WhenAll(tasks).GetAwaiter().GetResult();
@@ -129,15 +132,17 @@ namespace Vostok.Commons.Threading.Tests
 
                 for (var j = 0; j < parallelism; j++)
                 {
-                    tasks.Add(Task.Run(async () =>
-                    {
-                        for (var k = 0; k < iterations; k++)
-                        {
-                            await lifoSemaphore.WaitAsync();
+                    tasks.Add(
+                        Task.Run(
+                            async () =>
+                            {
+                                for (var k = 0; k < iterations; k++)
+                                {
+                                    await lifoSemaphore.WaitAsync();
 
-                            lifoSemaphore.Release();
-                        }
-                    }));
+                                    lifoSemaphore.Release();
+                                }
+                            }));
                 }
 
                 Task.WhenAll(tasks).GetAwaiter().GetResult();
