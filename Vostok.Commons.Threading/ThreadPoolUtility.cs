@@ -9,13 +9,19 @@ namespace Vostok.Commons.Threading
     {
         public const int MaximumThreads = short.MaxValue;
 
-        public static void Setup(int multiplier = 128)
+        public static void Setup(int multiplier = 128, double? processorCount = null)
         {
             if (multiplier <= 0)
                 return;
 
             // ReSharper disable once RedundantNameQualifier
-            var minimumThreads = Math.Min(System.Environment.ProcessorCount * multiplier, MaximumThreads);
+            processorCount = processorCount ?? System.Environment.ProcessorCount;
+
+            var minimumThreads = (int)Math.Round(
+                Math.Min(
+                    processorCount.Value * multiplier,
+                    MaximumThreads),
+                MidpointRounding.AwayFromZero);
 
             ThreadPool.SetMaxThreads(MaximumThreads, MaximumThreads);
             ThreadPool.SetMinThreads(minimumThreads, minimumThreads);
