@@ -61,5 +61,15 @@ namespace Vostok.Commons.Threading.Tests
 
             boolean.TrySetFalse().Should().BeFalse();
         }
+
+        [Test]
+        public void TrySet_should_return_true_if_value_changed()
+        {
+            boolean.Value = true;
+
+            boolean.TrySet(true).Should().BeFalse();
+            boolean.TrySet(false).Should().BeTrue();
+            boolean.TrySet(false).Should().BeFalse();
+        }
     }
 }
