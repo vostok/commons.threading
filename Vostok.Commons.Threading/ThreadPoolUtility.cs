@@ -9,7 +9,7 @@ namespace Vostok.Commons.Threading
     {
         public const int MaximumThreads = short.MaxValue;
 
-        public static void Setup(int multiplier = 128, double? processorCount = null)
+        public static void Setup(int multiplier = 32, double? processorCount = null)
         {
             if (multiplier <= 0)
                 return;
