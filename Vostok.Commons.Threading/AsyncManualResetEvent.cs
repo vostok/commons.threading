@@ -44,11 +44,8 @@ namespace Vostok.Commons.Threading
                 : WaitAsync();
 
         /// <summary>
-        /// wait event to be set with timeout
+        /// Returns <c>true</c> if event set, false if timeout reached.
         /// </summary>
-        /// <param name="token"></param>
-        /// <param name="timeout"></param>
-        /// <returns>true if event set, false if timeout reached</returns>
         public Task<bool> WaitAsync(CancellationToken token, TimeSpan timeout)
             => WaitAsyncWithCancellationAndTimeout(token, timeout);
 
