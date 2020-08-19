@@ -10,23 +10,29 @@ namespace Vostok.Commons.Threading
     [PublicAPI]
     internal class ThreadRunner
     {
-        public static Thread Run(Action<object> threadRoutine, Action<Exception> errorHandler = null, [CanBeNull] Action<Thread> tuneThreadBeforeStart = null)
+        public static Thread Run(
+            [NotNull] Action<object> threadRoutine,
+            [CanBeNull] Action<Exception> errorHandler = null,
+            [CanBeNull] Action<Thread> customizeThreadBeforeStart = null)
         {
             var t = new Thread(Wrap(threadRoutine, errorHandler))
             {
                 IsBackground = true
             };
-            tuneThreadBeforeStart?.Invoke(t);
+            customizeThreadBeforeStart?.Invoke(t);
             t.Start();
             return t;
         }
 
-        public static Thread Run(Action threadRoutine, Action<Exception> errorHandler = null, [CanBeNull] Action<Thread> tuneThreadBeforeStart = null)
+        public static Thread Run(
+            [NotNull] Action threadRoutine,
+            [CanBeNull] Action<Exception> errorHandler = null,
+            [CanBeNull] Action<Thread> customizeThreadBeforeStart = null)
         {
-            return Run(o => threadRoutine(), errorHandler, tuneThreadBeforeStart);
+            return Run(o => threadRoutine(), errorHandler, customizeThreadBeforeStart);
         }
 
-        public static ParameterizedThreadStart Wrap(Action<object> threadRoutine, Action<Exception> errorHandler)
+        private static ParameterizedThreadStart Wrap(Action<object> threadRoutine, Action<Exception> errorHandler)
         {
             return parameter =>
             {
