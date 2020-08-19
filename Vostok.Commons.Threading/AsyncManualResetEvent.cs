@@ -43,7 +43,10 @@ namespace Vostok.Commons.Threading
                 // ReSharper disable once MethodSupportsCancellation
                 : WaitAsync();
 
-        public Task WaitAsync(CancellationToken token, TimeSpan timeout)
+        /// <summary>
+        /// Returns <c>true</c> if event set, false if timeout reached.
+        /// </summary>
+        public Task<bool> WaitAsync(CancellationToken token, TimeSpan timeout)
             => WaitAsyncWithCancellationAndTimeout(token, timeout);
 
         public TaskAwaiter GetAwaiter() => WaitAsync().GetAwaiter();
@@ -66,7 +69,7 @@ namespace Vostok.Commons.Threading
             }
         }
 
-        private async Task WaitAsyncWithCancellationAndTimeout(CancellationToken token, TimeSpan timeout)
+        private async Task<bool> WaitAsyncWithCancellationAndTimeout(CancellationToken token, TimeSpan timeout)
         {
             using (var timeoutCancellation = new CancellationTokenSource())
             using (var linkedCancellation = CancellationTokenSource.CreateLinkedTokenSource(token, timeoutCancellation.Token))
@@ -79,6 +82,8 @@ namespace Vostok.Commons.Threading
                 timeoutCancellation.Cancel();
 
                 token.ThrowIfCancellationRequested();
+
+                return state.Task.IsCompleted;
             }
         }
     }
