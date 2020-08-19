@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
+using FluentAssertions.Extensions;
 using NUnit.Framework;
 
 namespace Vostok.Commons.Threading.Tests
@@ -59,6 +60,30 @@ namespace Vostok.Commons.Threading.Tests
             @event.Set();
 
             await task;
+        }
+
+        [Test]
+        public async Task WaitAsync_with_timeout_should_return_true_if_event_is_set()
+        {
+            var cts = new CancellationTokenSource();
+            var task = @event.WaitAsync(cts.Token, 10.Seconds());
+            await Task.Delay(100.Milliseconds());
+
+            @event.Set();
+
+            (await task).Should().BeTrue();
+        }
+
+        [Test]
+        public async Task WaitAsync_with_timeout_should_return_false_if_timeout([Values(true, false)] bool eventSet)
+        {
+            var cts = new CancellationTokenSource();
+            var task = @event.WaitAsync(cts.Token, 100.Milliseconds());
+            await Task.Delay(500.Milliseconds());
+            if (eventSet)
+                @event.Set();
+
+            (await task).Should().BeFalse();
         }
 
         [Test]
