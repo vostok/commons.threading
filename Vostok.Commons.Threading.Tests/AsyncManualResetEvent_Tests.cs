@@ -63,7 +63,7 @@ namespace Vostok.Commons.Threading.Tests
         }
 
         [Test]
-        public async Task WaitAsync_withtimeout_returns_true_if_event_is_set()
+        public async Task WaitAsync_with_timeout_should_return_true_if_event_is_set()
         {
             var cts = new CancellationTokenSource();
             var task = @event.WaitAsync(cts.Token, 10.Seconds());
@@ -75,7 +75,7 @@ namespace Vostok.Commons.Threading.Tests
         }
 
         [Test]
-        public async Task WaitAsync_withtimeout_returns_false_if_timeout([Values(true, false)] bool eventSet)
+        public async Task WaitAsync_with_timeout_should_return_false_if_timeout([Values(true, false)] bool eventSet)
         {
             var cts = new CancellationTokenSource();
             var task = @event.WaitAsync(cts.Token, 100.Milliseconds());
