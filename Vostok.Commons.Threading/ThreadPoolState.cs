@@ -19,7 +19,7 @@ namespace Vostok.Commons.Threading
         public int MinIocpThreads { get; }
         public int UsedIocpThreads { get; }
 
-        #region Equality 
+        #region Equality
 
         public override bool Equals(object obj) =>
             !ReferenceEquals(null, obj) &&
