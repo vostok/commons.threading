@@ -58,6 +58,8 @@ namespace Vostok.Commons.Threading
             return NextDouble() <= 0.5;
         }
 
+        public static Random ObtainThreadStaticRandom() => ObtainRandom();
+
         private static Random ObtainRandom()
         {
             return random ?? (random = new Random(Guid.NewGuid().GetHashCode()));
