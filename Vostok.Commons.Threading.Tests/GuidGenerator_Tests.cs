@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using NUnit.Framework;
@@ -22,7 +23,7 @@ namespace Vostok.Commons.Threading.Tests
         [Test]
         public void Generated_Guids_Should_Be_Unique()
         {
-            const int count = 10_000;
+            const int count = 100_000;
             var guids = new HashSet<Guid>();
             for (var i = 0; i < count; i++)
                 guids.Add(GuidGenerator.GenerateNotCryptoQualityGuid());
@@ -34,18 +35,22 @@ namespace Vostok.Commons.Threading.Tests
         public void SmokeTest_Multithreading_Safety()
         {
             const int tasksCount = 10;
-            const int guidsInTask = 1000;
+            const int guidsInTask = 100_000;
 
+            var barrier = new ManualResetEvent(false);
             var tasks = new Task<HashSet<Guid>>[tasksCount];
             for (var i = 0; i < tasksCount; i++)
                 tasks[i] = Task.Run(() =>
                 {
+                    barrier.WaitOne();
                     var guids = new HashSet<Guid>();
                     for (var j = 0; j < guidsInTask; j++)
                         guids.Add(GuidGenerator.GenerateNotCryptoQualityGuid());
 
                     return guids;
                 });
+
+            barrier.Set();
             Task.WhenAll(tasks).GetAwaiter().GetResult();
 
             var allGuids = tasks.Aggregate(new HashSet<Guid>(),
