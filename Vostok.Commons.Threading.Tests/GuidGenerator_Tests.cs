@@ -37,12 +37,12 @@ namespace Vostok.Commons.Threading.Tests
             const int tasksCount = 10;
             const int guidsInTask = 100_000;
 
-            var barrier = new ManualResetEvent(false);
+            var barrier = new Barrier(tasksCount);
             var tasks = new Task<HashSet<Guid>>[tasksCount];
             for (var i = 0; i < tasksCount; i++)
                 tasks[i] = Task.Run(() =>
                 {
-                    barrier.WaitOne();
+                    barrier.SignalAndWait();
                     var guids = new HashSet<Guid>();
                     for (var j = 0; j < guidsInTask; j++)
                         guids.Add(GuidGenerator.GenerateNotCryptoQualityGuid());
@@ -50,7 +50,6 @@ namespace Vostok.Commons.Threading.Tests
                     return guids;
                 });
 
-            barrier.Set();
             Task.WhenAll(tasks).GetAwaiter().GetResult();
 
             var allGuids = tasks.Aggregate(new HashSet<Guid>(),
