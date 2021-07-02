@@ -11,6 +11,15 @@ namespace Vostok.Commons.Threading.Tests
     internal class GuidGenerator_Tests
     {
         [Test]
+        [Explicit]
+        public void Print_Generated_Guids()
+        {
+            const int count = 100;
+            for (var i = 0; i < count; i++)
+                Console.WriteLine(GuidGenerator.GenerateNotCryptoQualityGuid());
+        }
+
+        [Test]
         public void Generated_Guids_Should_Be_Unique()
         {
             const int count = 10_000;
