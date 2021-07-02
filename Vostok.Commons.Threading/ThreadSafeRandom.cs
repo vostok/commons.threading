@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using JetBrains.Annotations;
 
 namespace Vostok.Commons.Threading
@@ -58,6 +59,10 @@ namespace Vostok.Commons.Threading
             return NextDouble() <= 0.5;
         }
 
+        /// <summary>
+        /// Be careful! This method returns an instance of the class <see cref="Random"/> with <see cref="ThreadStaticAttribute"/> attribute. It is safe to use this instance only in a synchronous block of code, such as a loop.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Random ObtainThreadStaticRandom() => ObtainRandom();
 
         private static Random ObtainRandom()
