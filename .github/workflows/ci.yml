@@ -1,0 +1,54 @@
+name: Build & Test & Publish
+
+on: [push, workflow_dispatch]
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+        references: [cement, nuget]
+    runs-on: ${{ matrix.os }}
+
+    steps: 
+      - name: Checkout
+        uses: actions/checkout@main
+        with:
+          path: vostok.module
+        
+      - name: Build
+        uses: vostok/github.ci@master
+        with:
+          references: ${{ matrix.references }}
+
+  test:
+    needs: build
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+        references: [cement, nuget]
+        framework: [netcoreapp2.1, net471]
+        exclude: 
+          - os: ubuntu-latest
+            framework: net471
+    runs-on: ${{ matrix.os }}
+   
+    steps:
+      - name: Test
+        uses: vostok/github.ci@master
+        with:
+          references: ${{ matrix.references }}
+          framework: ${{ matrix.framework }}
+           
+  publish:
+    needs: test
+    runs-on: windows-latest
+    if: ${{ github.repository_owner == 'vostok' && (github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/release/')) }}
+   
+    steps:
+       - name: Publish
+         uses: vostok/github.ci@master
+         with: 
+           key: ${{ secrets.NUGET_TOKEN }}
