@@ -23,11 +23,25 @@ namespace Vostok.Commons.Threading
         public bool TrySetTrue() =>
             Interlocked.CompareExchange(ref state, TrueState, FalseState) == FalseState;
 
+        public void SetTrue() =>
+            Interlocked.Exchange(ref state, TrueState);
+
         public bool TrySetFalse() =>
             Interlocked.CompareExchange(ref state, FalseState, TrueState) == TrueState;
 
+        public void SetFalse() =>
+            Interlocked.Exchange(ref state, FalseState);
+
         public bool TrySet(bool value) =>
             value ? TrySetTrue() : TrySetFalse();
+
+        public void Set(bool value)
+        {
+            if (value)
+                SetTrue();
+            else
+                SetFalse();
+        }
 
         public override string ToString() =>
             $"{nameof(Value)}: {Value}";
