@@ -5,7 +5,6 @@
   <Import Project="..\..\vostok.devtools\publicize.roslyn\Vostok.Tools.Publicize.Roslyn.props" />
   <PropertyGroup>
     <Configurations>Debug;Release</Configurations>
-    <LangVersion>7.2</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
