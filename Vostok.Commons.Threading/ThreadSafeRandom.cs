@@ -67,7 +67,11 @@ namespace Vostok.Commons.Threading
 
         private static Random ObtainRandom()
         {
+#if NET6_0_OR_GREATER
+            return Random.Shared;
+#else
             return random ?? (random = new Random(Guid.NewGuid().GetHashCode()));
+#endif
         }
 
         private static void ThrowArgumentOutOfRangeException(long minValue, long maxValue) =>
