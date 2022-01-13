@@ -4,8 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using BenchmarkDotNet.Configs;
+using BenchmarkDotNet.Diagnosers;
 using BenchmarkDotNet.Running;
-using BenchmarkDotNet.Toolchains.InProcess;
 using NUnit.Framework;
 
 namespace Vostok.Commons.Threading.Tests
@@ -24,9 +25,10 @@ namespace Vostok.Commons.Threading.Tests
         [Explicit]
         public void Benchmark_single_threaded_speed_vs_SemaphoreSlim()
         {
-            BenchmarkRunnerCore.Run(
-                BenchmarkConverter.TypeToBenchmarks(typeof(LifoSemaphoreBenchmark)),
-                job => new InProcessToolchain(false));
+            BenchmarkRunner.Run<LifoSemaphoreBenchmark>(
+                DefaultConfig.Instance
+                    .AddDiagnoser(MemoryDiagnoser.Default)
+                    .WithOption(ConfigOptions.DisableOptimizationsValidator, true));
         }
 
         [TestCase(1, 1, 500 * 1000)]
