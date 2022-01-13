@@ -12,6 +12,7 @@ namespace Vostok.Commons.Threading
             var dst = bytes;
 
             var random = ThreadSafeRandom.ObtainThreadStaticRandom();
+
             for (var i = 0; i < 4; i++)
             {
                 *(int*)dst = random.Next();
