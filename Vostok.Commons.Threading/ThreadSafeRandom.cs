@@ -7,8 +7,11 @@ namespace Vostok.Commons.Threading
     [PublicAPI]
     internal static class ThreadSafeRandom
     {
+#if NET6_0_OR_GREATER
+#else
         [ThreadStatic]
         private static Random random;
+#endif
 
         public static double NextDouble()
         {
