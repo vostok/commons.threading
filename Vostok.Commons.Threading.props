@@ -1,0 +1,10 @@
+<Project>
+
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)\$(MSBuildThisFileName)\**\*.cs" LinkBase="Commons\$(MSBuildThisFileName)\" />
+    <Compile Remove="$(MSBuildThisFileDirectory)\$(MSBuildThisFileName)\Properties\**\*.cs" />
+    <Compile Remove="$(MSBuildThisFileDirectory)\$(MSBuildThisFileName)\bin\**\*.cs" />
+    <Compile Remove="$(MSBuildThisFileDirectory)\$(MSBuildThisFileName)\obj\**\*.cs" />
+  </ItemGroup>
+
+</Project>
