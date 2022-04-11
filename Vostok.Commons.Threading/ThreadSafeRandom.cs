@@ -15,22 +15,22 @@ namespace Vostok.Commons.Threading
 
         public static double NextDouble()
         {
-            return ObtainRandom().NextDouble();
+            return ObtainThreadStaticRandom().NextDouble();
         }
 
         public static int Next()
         {
-            return ObtainRandom().Next();
+            return ObtainThreadStaticRandom().Next();
         }
 
         public static int Next(int maxValue)
         {
-            return ObtainRandom().Next(maxValue);
+            return ObtainThreadStaticRandom().Next(maxValue);
         }
 
         public static int Next(int minValue, int maxValue)
         {
-            return ObtainRandom().Next(minValue, maxValue);
+            return ObtainThreadStaticRandom().Next(minValue, maxValue);
         }
 
         public static long Next(long minValue, long maxValue)
@@ -45,7 +45,7 @@ namespace Vostok.Commons.Threading
 
         public static void NextBytes(byte[] buffer)
         {
-            ObtainRandom().NextBytes(buffer);
+            ObtainThreadStaticRandom().NextBytes(buffer);
         }
 
         public static byte[] NextBytes(long size)
@@ -66,9 +66,7 @@ namespace Vostok.Commons.Threading
         /// Be careful! This method returns an instance of the class <see cref="Random"/> with <see cref="ThreadStaticAttribute"/> attribute. It is safe to use this instance only in a synchronous block of code, such as a loop.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Random ObtainThreadStaticRandom() => ObtainRandom();
-
-        private static Random ObtainRandom()
+        public static Random ObtainThreadStaticRandom()
         {
 #if NET6_0_OR_GREATER
             return Random.Shared;
