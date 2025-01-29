@@ -12,6 +12,16 @@ notests *default:
 
   install:
     - Vostok.Commons.Threading/bin/Release/netstandard2.0/Vostok.Commons.Threading.dll
+    - groups:
+        - target-framework: "netstandard2.0"
+          libraries:
+            - Vostok.Commons.Threading/bin/Release/netstandard2.0/Vostok.Commons.Threading.dll
+        - target-framework: "net6.0"
+          libraries:
+            - Vostok.Commons.Threading/bin/Release/net6.0/Vostok.Commons.Threading.dll
+        - target-framework: "net8.0"
+          libraries:
+            - Vostok.Commons.Threading/bin/Release/net8.0/Vostok.Commons.Threading.dll
 
   deps:
     - vostok.devtools
@@ -21,6 +31,21 @@ full-build > notests:
     - -vostok.devtools
     - vostok.devtools@with-net6.0
 
+  install:
+    - Vostok.Commons.Threading/bin/Release/netstandard2.0/Vostok.Commons.Threading.dll
+    - groups:
+        - target-framework: "netstandard2.0"
+          libraries:
+            - Vostok.Commons.Threading/bin/Release/netstandard2.0/Vostok.Commons.Threading.dll
+        - target-framework: "net6.0"
+          libraries:
+            - Vostok.Commons.Threading/bin/Release/net6.0/Vostok.Commons.Threading.dll
+        - target-framework: "net8.0"
+          libraries:
+            - Vostok.Commons.Threading/bin/Release/net8.0/Vostok.Commons.Threading.dll
+
   build:
     target: Vostok.Commons.Threading.sln
     configuration: Release
+    tool:
+      name: dotnet
