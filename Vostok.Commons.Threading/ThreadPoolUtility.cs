@@ -9,7 +9,7 @@ namespace Vostok.Commons.Threading
     {
         public const int MaximumThreads = short.MaxValue;
 
-        public static void Setup(int multiplier = 32, double? processorCount = null)
+        public static void Setup(int multiplier = 32, double? processorCount = null, int? minThreads = null)
         {
             if (multiplier <= 0)
                 return;
@@ -22,6 +22,9 @@ namespace Vostok.Commons.Threading
                     processorCount.Value * multiplier,
                     MaximumThreads),
                 MidpointRounding.AwayFromZero);
+
+            if (minThreads != null)
+                minimumThreads = Math.Max(minimumThreads, minThreads.Value);
 
             ThreadPool.SetMaxThreads(MaximumThreads, MaximumThreads);
             ThreadPool.SetMinThreads(minimumThreads, minimumThreads);
